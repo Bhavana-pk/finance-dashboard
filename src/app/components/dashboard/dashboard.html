@@ -1,0 +1,15 @@
+<div class="dashboard">
+  <h1>My Transactions</h1>
+
+  @if (transactions().length === 0) {
+    <p>No transactions yet.</p>
+  } @else {
+    <ul>
+      @for (t of transactions(); track t.id) {
+        <li>
+          {{ t.date }} — {{ t.category }} — ₹{{ t.amount }} ({{ t.type }})
+        </li>
+      }
+    </ul>
+  }
+</div>

@@ -1,0 +1,7 @@
+{
+  "transactions": [
+    { "id": 1, "date": "2026-07-01", "amount": 45000, "category": "Salary", "type": "income", "note": "Monthly salary" },
+    { "id": 2, "date": "2026-07-03", "amount": 1200, "category": "Food", "type": "expense", "note": "Groceries" },
+    { "id": 3, "date": "2026-07-05", "amount": 500, "category": "Transport", "type": "expense", "note": "Bus pass" }
+  ]
+}
