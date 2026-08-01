@@ -1,6 +1,21 @@
 <div class="dashboard">
   <h1>My Transactions</h1>
 
+  <div class="summary-cards">
+    <div class="card income">
+      <span class="label">Total Income</span>
+      <span class="value">₹{{ totalIncome() }}</span>
+    </div>
+    <div class="card expense">
+      <span class="label">Total Expenses</span>
+      <span class="value">₹{{ totalExpense() }}</span>
+    </div>
+    <div class="card balance">
+      <span class="label">Balance</span>
+      <span class="value">₹{{ balance() }}</span>
+    </div>
+  </div>
+
   <form [formGroup]="transactionForm" (ngSubmit)="onSubmit()" class="transaction-form">
     <input type="date" formControlName="date" />
     <input type="text" formControlName="category" placeholder="Category (e.g. Food)" />
@@ -13,11 +28,20 @@
     <button type="submit" [disabled]="transactionForm.invalid">Add Transaction</button>
   </form>
 
-  @if (transactions().length === 0) {
-    <p>No transactions yet.</p>
+  <div class="filter-bar">
+    <label for="categoryFilter">Filter by category:</label>
+    <select id="categoryFilter" (change)="onCategoryChange($any($event.target).value)">
+      @for (cat of categories(); track cat) {
+        <option [value]="cat">{{ cat }}</option>
+      }
+    </select>
+  </div>
+
+  @if (filteredTransactions().length === 0) {
+    <p>No transactions found.</p>
   } @else {
     <ul>
-      @for (t of transactions(); track t.id) {
+      @for (t of filteredTransactions(); track t.id) {
         <li>
           {{ t.date }} — {{ t.category }} — ₹{{ t.amount }} ({{ t.type }})
           <button (click)="deleteTransaction(t.id)" class="delete-btn">Delete</button>

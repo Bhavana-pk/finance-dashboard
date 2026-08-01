@@ -1,3 +1,44 @@
+.summary-cards {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.card {
+  flex: 1;
+  padding: 16px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-width: 200px;
+}
+
+.card .label {
+  font-size: 13px;
+  opacity: 0.8;
+}
+
+.card .value {
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.card.income {
+  background: #e6f7e6;
+  color: #1a7a1a;
+}
+
+.card.expense {
+  background: #fdeaea;
+  color: #b30000;
+}
+
+.card.balance {
+  background: #e8ecfd;
+  color: #2b3a9e;
+}
+
 .transaction-form {
   display: flex;
   gap: 8px;
@@ -13,6 +54,17 @@
 .transaction-form button {
   padding: 6px 12px;
   cursor: pointer;
+}
+
+.filter-bar {
+  margin: 16px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.filter-bar select {
+  padding: 6px;
 }
 
 ul {

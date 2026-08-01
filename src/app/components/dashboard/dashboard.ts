@@ -1,4 +1,4 @@
-import { Component, OnInit, signal, inject } from '@angular/core';
+import { Component, OnInit, signal, computed, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { TransactionService } from '../../services/transaction';
@@ -16,6 +16,32 @@ export class Dashboard implements OnInit {
   private fb = inject(FormBuilder);
 
   transactions = signal<Transaction[]>([]);
+  selectedCategory = signal<string>('All');
+
+  categories = computed(() => {
+    const cats = new Set(this.transactions().map(t => t.category));
+    return ['All', ...Array.from(cats)];
+  });
+
+  filteredTransactions = computed(() => {
+    const cat = this.selectedCategory();
+    if (cat === 'All') return this.transactions();
+    return this.transactions().filter(t => t.category === cat);
+  });
+
+  totalIncome = computed(() =>
+    this.filteredTransactions()
+      .filter(t => t.type === 'income')
+      .reduce((sum, t) => sum + Number(t.amount), 0)
+  );
+
+  totalExpense = computed(() =>
+    this.filteredTransactions()
+      .filter(t => t.type === 'expense')
+      .reduce((sum, t) => sum + Number(t.amount), 0)
+  );
+
+  balance = computed(() => this.totalIncome() - this.totalExpense());
 
   transactionForm = this.fb.group({
     date: ['', Validators.required],
@@ -60,5 +86,9 @@ export class Dashboard implements OnInit {
       next: () => this.loadTransactions(),
       error: (err) => console.error('Failed to delete transaction', err)
     });
+  }
+
+  onCategoryChange(category: string): void {
+    this.selectedCategory.set(category);
   }
 }
