@@ -1,6 +1,18 @@
 <div class="dashboard">
   <h1>My Transactions</h1>
 
+  <form [formGroup]="transactionForm" (ngSubmit)="onSubmit()" class="transaction-form">
+    <input type="date" formControlName="date" />
+    <input type="text" formControlName="category" placeholder="Category (e.g. Food)" />
+    <input type="number" formControlName="amount" placeholder="Amount" />
+    <select formControlName="type">
+      <option value="expense">Expense</option>
+      <option value="income">Income</option>
+    </select>
+    <input type="text" formControlName="note" placeholder="Note (optional)" />
+    <button type="submit" [disabled]="transactionForm.invalid">Add Transaction</button>
+  </form>
+
   @if (transactions().length === 0) {
     <p>No transactions yet.</p>
   } @else {
@@ -8,6 +20,7 @@
       @for (t of transactions(); track t.id) {
         <li>
           {{ t.date }} — {{ t.category }} — ₹{{ t.amount }} ({{ t.type }})
+          <button (click)="deleteTransaction(t.id)" class="delete-btn">Delete</button>
         </li>
       }
     </ul>

@@ -1,0 +1,44 @@
+.transaction-form {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.transaction-form input,
+.transaction-form select {
+  padding: 6px;
+}
+
+.transaction-form button {
+  padding: 6px 12px;
+  cursor: pointer;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  border-bottom: 1px solid #ddd;
+  max-width: 500px;
+}
+
+.delete-btn {
+  padding: 4px 10px;
+  cursor: pointer;
+  color: #c00;
+  border: 1px solid #c00;
+  border-radius: 4px;
+  background: white;
+}
+
+.delete-btn:hover {
+  background: #c00;
+  color: white;
+}
