@@ -16,6 +16,18 @@
     </div>
   </div>
 
+  @if (chartData().length > 0) {
+    <div class="chart-container">
+      <h2>Spending by Category</h2>
+      <ngx-charts-pie-chart
+        [results]="chartData()"
+        [labels]="true"
+        [doughnut]="true"
+        [view]="[400, 300]">
+      </ngx-charts-pie-chart>
+    </div>
+  }
+
   <form [formGroup]="transactionForm" (ngSubmit)="onSubmit()" class="transaction-form">
     <input type="date" formControlName="date" />
     <input type="text" formControlName="category" placeholder="Category (e.g. Food)" />

@@ -1,13 +1,14 @@
 import { Component, OnInit, signal, computed, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { TransactionService } from '../../services/transaction';
 import { Transaction } from '../../models/transaction';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, NgxChartsModule],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css'
 })
@@ -42,6 +43,18 @@ export class Dashboard implements OnInit {
   );
 
   balance = computed(() => this.totalIncome() - this.totalExpense());
+
+  chartData = computed(() => {
+    const expenseTransactions = this.transactions().filter(t => t.type === 'expense');
+    const totals = new Map<string, number>();
+
+    for (const t of expenseTransactions) {
+      const current = totals.get(t.category) || 0;
+      totals.set(t.category, current + Number(t.amount));
+    }
+
+    return Array.from(totals.entries()).map(([name, value]) => ({ name, value }));
+  });
 
   transactionForm = this.fb.group({
     date: ['', Validators.required],
